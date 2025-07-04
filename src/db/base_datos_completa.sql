@@ -1,0 +1,193 @@
+
+-- ============================
+-- CREACIÓN DE TABLAS
+-- ============================
+
+CREATE TABLE supervisores (
+    id_supervisor INT PRIMARY KEY,
+    apeyNombre VARCHAR(100),
+    gmail VARCHAR(100),
+    telefono VARCHAR(20),
+    sede VARCHAR(100)
+);
+
+CREATE TABLE circuitos (
+    id_circuito INT PRIMARY KEY,
+    id_supervisor INT,
+    nombre VARCHAR(100),
+    descripcion TEXT,
+    FOREIGN KEY (id_supervisor) REFERENCES supervisores(id_supervisor)
+);
+
+CREATE TABLE departamentos (
+    id_departamento INT PRIMARY KEY,
+    nombre VARCHAR(100),
+    id_circuito INT,
+    FOREIGN KEY (id_circuito) REFERENCES circuitos(id_circuito)
+);
+
+CREATE TABLE localidades (
+    id_localidad INT PRIMARY KEY,
+    nombre VARCHAR(100),
+    esComuna BOOLEAN,
+    id_departamento INT,
+    FOREIGN KEY (id_departamento) REFERENCES departamentos(id_departamento)
+);
+
+CREATE TABLE instituciones (
+    id_institucion INT PRIMARY KEY,
+    nombre VARCHAR(100),
+    contacto VARCHAR(100),
+    persona_a_cargo VARCHAR(100),
+    id_localidad INT,
+    FOREIGN KEY (id_localidad) REFERENCES localidades(id_localidad)
+);
+
+-- ============================
+-- FUNCIONES SUPERVISORES
+-- ============================
+
+DELIMITER $$
+CREATE FUNCTION supervisor_SPI(p_id INT, p_apeyNombre VARCHAR(100), p_gmail VARCHAR(100), p_telefono VARCHAR(20), p_sede VARCHAR(100))
+RETURNS VARCHAR(100)
+DETERMINISTIC
+BEGIN
+    INSERT INTO supervisores VALUES (p_id, p_apeyNombre, p_gmail, p_telefono, p_sede);
+    RETURN 'OK';
+END $$
+
+CREATE FUNCTION supervisor_SPU(p_id INT, p_apeyNombre VARCHAR(100), p_gmail VARCHAR(100), p_telefono VARCHAR(20), p_sede VARCHAR(100))
+RETURNS VARCHAR(100)
+DETERMINISTIC
+BEGIN
+    UPDATE supervisores SET apeyNombre = p_apeyNombre, gmail = p_gmail, telefono = p_telefono, sede = p_sede WHERE id_supervisor = p_id;
+    RETURN 'Actualizado';
+END $$
+
+CREATE FUNCTION supervisor_SPD(p_id INT)
+RETURNS VARCHAR(100)
+DETERMINISTIC
+BEGIN
+    DELETE FROM supervisores WHERE id_supervisor = p_id;
+    RETURN 'Eliminado';
+END $$
+
+-- ============================
+-- FUNCIONES CIRCUITOS
+-- ============================
+
+CREATE FUNCTION circuito_SPI(p_nombre VARCHAR(100), p_descripcion TEXT, p_idSupervisor INT)
+RETURNS VARCHAR(100)
+DETERMINISTIC
+BEGIN
+    DECLARE existe INT DEFAULT 0;
+    SELECT COUNT(*) INTO existe FROM supervisores WHERE id_supervisor = p_idSupervisor;
+    IF existe > 0 THEN
+        INSERT INTO circuitos(nombre, descripcion, id_supervisor)
+        VALUES (p_nombre, p_descripcion, p_idSupervisor);
+        RETURN 'OK';
+    ELSE
+        RETURN 'Error: supervisor no existe';
+    END IF;
+END $$
+
+CREATE FUNCTION circuito_SPU(p_id INT, p_nombre VARCHAR(100), p_descripcion TEXT, p_idSupervisor INT)
+RETURNS VARCHAR(100)
+DETERMINISTIC
+BEGIN
+    UPDATE circuitos SET nombre = p_nombre, descripcion = p_descripcion, id_supervisor = p_idSupervisor WHERE id_circuito = p_id;
+    RETURN 'Actualizado';
+END $$
+
+CREATE FUNCTION circuito_SPD(p_id INT)
+RETURNS VARCHAR(100)
+DETERMINISTIC
+BEGIN
+    DELETE FROM circuitos WHERE id_circuito = p_id;
+    RETURN 'Eliminado';
+END $$
+
+-- ============================
+-- FUNCIONES DEPARTAMENTOS
+-- ============================
+
+CREATE FUNCTION departamento_SPI(p_id INT, p_nombre VARCHAR(100), p_idCircuito INT)
+RETURNS VARCHAR(100)
+DETERMINISTIC
+BEGIN
+    INSERT INTO departamentos VALUES (p_id, p_nombre, p_idCircuito);
+    RETURN 'OK';
+END $$
+
+CREATE FUNCTION departamento_SPU(p_id INT, p_nombre VARCHAR(100), p_idCircuito INT)
+RETURNS VARCHAR(100)
+DETERMINISTIC
+BEGIN
+    UPDATE departamentos SET nombre = p_nombre, id_circuito = p_idCircuito WHERE id_departamento = p_id;
+    RETURN 'Actualizado';
+END $$
+
+CREATE FUNCTION departamento_SPD(p_id INT)
+RETURNS VARCHAR(100)
+DETERMINISTIC
+BEGIN
+    DELETE FROM departamentos WHERE id_departamento = p_id;
+    RETURN 'Eliminado';
+END $$
+
+-- ============================
+-- FUNCIONES LOCALIDADES
+-- ============================
+
+CREATE FUNCTION localidad_SPI(p_id INT, p_nombre VARCHAR(100), p_esComuna BOOLEAN, p_idDepartamento INT)
+RETURNS VARCHAR(100)
+DETERMINISTIC
+BEGIN
+    INSERT INTO localidades VALUES (p_id, p_nombre, p_esComuna, p_idDepartamento);
+    RETURN 'OK';
+END $$
+
+CREATE FUNCTION localidad_SPU(p_id INT, p_nombre VARCHAR(100), p_esComuna BOOLEAN, p_idDepartamento INT)
+RETURNS VARCHAR(100)
+DETERMINISTIC
+BEGIN
+    UPDATE localidades SET nombre = p_nombre, esComuna = p_esComuna, id_departamento = p_idDepartamento WHERE id_localidad = p_id;
+    RETURN 'Actualizado';
+END $$
+
+CREATE FUNCTION localidad_SPD(p_id INT)
+RETURNS VARCHAR(100)
+DETERMINISTIC
+BEGIN
+    DELETE FROM localidades WHERE id_localidad = p_id;
+    RETURN 'Eliminado';
+END $$
+
+-- ============================
+-- FUNCIONES INSTITUCIONES
+-- ============================
+
+CREATE FUNCTION institucion_SPI(p_id INT, p_nombre VARCHAR(100), p_contacto VARCHAR(100), p_personaACargo VARCHAR(100), p_idLocalidad INT)
+RETURNS VARCHAR(100)
+DETERMINISTIC
+BEGIN
+    INSERT INTO instituciones VALUES (p_id, p_nombre, p_contacto, p_personaACargo, p_idLocalidad);
+    RETURN 'OK';
+END $$
+
+CREATE FUNCTION institucion_SPU(p_id INT, p_nombre VARCHAR(100), p_contacto VARCHAR(100), p_personaACargo VARCHAR(100), p_idLocalidad INT)
+RETURNS VARCHAR(100)
+DETERMINISTIC
+BEGIN
+    UPDATE instituciones SET nombre = p_nombre, contacto = p_contacto, persona_a_cargo = p_personaACargo, id_localidad = p_idLocalidad WHERE id_institucion = p_id;
+    RETURN 'Actualizado';
+END $$
+
+CREATE FUNCTION institucion_SPD(p_id INT)
+RETURNS VARCHAR(100)
+DETERMINISTIC
+BEGIN
+    DELETE FROM instituciones WHERE id_institucion = p_id;
+    RETURN 'Eliminado';
+END $$
+DELIMITER ;
