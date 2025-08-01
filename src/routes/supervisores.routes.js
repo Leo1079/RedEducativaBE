@@ -5,7 +5,7 @@ import {
   crearSupervisor,
   actualizarSupervisor,
   eliminarSupervisor,
-} from "../controllers/supervisorController.js";
+} from "../controllers/supervisores.controllers.js";
 
 const router = express.Router();
 

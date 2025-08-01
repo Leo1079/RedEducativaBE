@@ -5,7 +5,7 @@ import {
   crearDepartamento,
   actualizarDepartamento,
   eliminarDepartamento,
-} from "../controllers/departamentoController.js";
+} from "../controllers/departamentos.controllers.js";
 
 const router = express.Router();
 

@@ -5,7 +5,7 @@ import {
   crearCircuito,
   actualizarCircuito,
   eliminarCircuito,
-} from "../controllers/circuitoController.js";
+} from "../controllers/circuitos.controllers.js";
 
 const router = express.Router();
 

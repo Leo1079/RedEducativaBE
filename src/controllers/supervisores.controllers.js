@@ -1,4 +1,4 @@
-import { pool } from "../db/connection.js";
+import { pool } from "../db.js";
 
 export const obtenerSupervisores = async (req, res) => {
   try {

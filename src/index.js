@@ -1,11 +1,11 @@
 import express from "express";
 import cors from "cors";
 
-import supervisoresRoutes from "./routes/supervisores.js";
-import circuitosRoutes from "./routes/circuitos.js";
-import departamentosRoutes from "./routes/departamentos.js";
-import localidadesRoutes from "./routes/localidades.js";
-import institucionesRoutes from "./routes/instituciones.js";
+import supervisoresRoutes from "./routes/supervisores.routes.js";
+import circuitosRoutes from "./routes/circuitos.routes.js";
+import departamentosRoutes from "./routes/departamentos.routes.js";
+import localidadesRoutes from "./routes/localidades.routes.js";
+import institucionesRoutes from "./routes/instituciones.routes.js";
 
 const app = express();
 app.use(cors());

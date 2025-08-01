@@ -5,7 +5,7 @@ import {
   crearLocalidad,
   actualizarLocalidad,
   eliminarLocalidad,
-} from "../controllers/localidadController.js";
+} from "../controllers/localidades.controllers.js";
 
 const router = express.Router();
 

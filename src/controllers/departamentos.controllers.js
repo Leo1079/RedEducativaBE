@@ -1,6 +1,6 @@
-import { pool } from "../db/connection.js";
+import { pool } from "../db.js";
 
-export const obtenerInsituciones = async (req, res) => {
+export const obtenerDepartamentos= async (req, res) => {
   try {
     const [rows] = await pool.query("SELECT * FROM instituciones");
     res.json(rows[0]);
@@ -9,7 +9,7 @@ export const obtenerInsituciones = async (req, res) => {
   }
 };
 
-export const obtenerInsitucion = async (req, res) => {
+export const obtenerDepartamento = async (req, res) => {
   try {
     const [rows] = await pool.query(
       "SELECT * FROM supervisores WHERE id_institucion = ?",
