@@ -1,0 +1,67 @@
+import { pool } from "../db/connection.js";
+
+export const obtenerCircuitos = async (req, res) => {
+  try {
+    const [rows] = await pool.query("SELECT * FROM circuitos");
+    res.json(rows[0]);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const obtenerCircuito = async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT * FROM supervisores WHERE id_circuito = ?",
+      [req.params.id]
+    );
+
+    if (rows.lenght < 0) {
+      res.status(404).json({
+        message: "el circuito no fue encontrado",
+      });
+    }
+
+    res.json(rows[0]);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const crearCircuito = async (req, res) => {
+  const { nombre, descripcion, idSupervisor } = req.body;
+  try {
+    const [rows] = await pool.query(
+      "SELECT circuito_SPI(?, ?, ?) AS resultado",
+      [nombre, descripcion, idSupervisor]
+    );
+    res.json(rows[0]);
+  } catch (e) {
+    res.status(500).json({ message: "Error al crear circuito" });
+  }
+};
+
+export const actualizarCircuito = async (req, res) => {
+  const { id, nombre, descripcion, idSupervisor } = req.body;
+  try {
+    const [rows] = await pool.query(
+      "SELECT circuito_SPU(?, ?, ?, ?) AS resultado",
+      [id, nombre, descripcion, idSupervisor]
+    );
+    res.json(rows[0]);
+  } catch (e) {
+    res.status(500).json({ message: "Error al actualizar circuito" });
+  }
+};
+
+export const eliminarCircuito = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [rows] = await pool.query("SELECT circuito_SPD(?) AS resultado", [
+      id,
+    ]);
+    res.json(rows[0]);
+  } catch (e) {
+    res.status(500).json({ message: "Error al eliminar circuito" });
+  }
+};
