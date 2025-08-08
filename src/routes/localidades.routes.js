@@ -13,7 +13,7 @@ router
   .post("/", crearLocalidad)
   .get("/", obtenerLocalidades)
   .get("/:id", obtenerLocalidad)
-  .put("/", actualizarLocalidad)
+  .put("/:id", actualizarLocalidad)
   .delete("/:id", eliminarLocalidad);
 
 export default router;

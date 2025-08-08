@@ -11,8 +11,10 @@ export const obtenerCircuitos = async (req, res) => {
 
 export const obtenerCircuito = async (req, res) => {
   try {
+    console.log(req.params.id);
+    
     const [rows] = await pool.query(
-      "SELECT * FROM supervisores WHERE id_circuito = ?",
+      "SELECT * FROM circuitos WHERE id_circuito = ?",
       [req.params.id]
     );
 
@@ -42,11 +44,11 @@ export const crearCircuito = async (req, res) => {
 };
 
 export const actualizarCircuito = async (req, res) => {
-  const { id, nombre, descripcion, idSupervisor } = req.body;
+  const {  nombre, descripcion, idSupervisor } = req.body;
   try {
     const [rows] = await pool.query(
       "SELECT circuito_SPU(?, ?, ?, ?) AS resultado",
-      [id, nombre, descripcion, idSupervisor]
+      [req.params.id , nombre, descripcion, idSupervisor]
     );
     res.json(rows[0]);
   } catch (e) {

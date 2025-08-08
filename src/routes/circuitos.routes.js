@@ -11,9 +11,9 @@ const router = express.Router();
 
 router
   .get("/", obtenerCircuitos)
-  .get("/:id ", obtenerCircuito)
+  .get("/:id", obtenerCircuito)
   .post("/", crearCircuito)
-  .put("/", actualizarCircuito)
+  .put("/:id", actualizarCircuito)
   .delete("/:id", eliminarCircuito);
 
 export default router;
