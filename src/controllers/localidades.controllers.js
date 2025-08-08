@@ -37,6 +37,9 @@ export const crearLocalidad = async (req, res) => {
     );
     res.json(rows[0]);
   } catch (e) {
+    res.json({
+      e
+    })
     res.status(500).json({ message: "Error al crear localidad" });
   }
 };
