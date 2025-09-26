@@ -3,7 +3,7 @@ import { pool } from "../db.js";
 export const obtenerSupervisores = async (req, res) => {
   try {
     const [rows] = await pool.query("SELECT * FROM supervisores");
-    res.json(rows[0]);
+    res.json(rows);
   } catch (error) {
     console.error(error)
   }
@@ -29,14 +29,16 @@ try {
 
 
 export const crearSupervisor = async (req, res) => {
-  const { id, apeyNombre, gmail, telefono, sede } = req.body;
+  const {apeyNombre, gmail, telefono, sede } = req.body;
   try {
     const [rows] = await pool.query(
-      "SELECT supervisor_SPI(?, ?, ?, ?, ?) AS resultado",
-      [id, apeyNombre, gmail, telefono, sede]
+      "SELECT supervisor_SPI(?, ?, ?, ?) AS resultado",
+      [apeyNombre, gmail, telefono, sede]
     );
     res.json(rows[0]);
   } catch (e) {
+    console.log(e)
+    
     res.status(500).json({ message: "Error al crear supervisor" });
   }
 };

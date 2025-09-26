@@ -3,7 +3,7 @@ import { pool } from "../db.js";
 export const obtenerCircuitos = async (req, res) => {
   try {
     const [rows] = await pool.query("SELECT * FROM circuitos");
-    res.json(rows[0]);
+    res.json(rows);
   } catch (error) {
     console.error(error);
   }
@@ -37,7 +37,7 @@ export const crearCircuito = async (req, res) => {
       "SELECT circuito_SPI(?, ?, ?) AS resultado",
       [nombre, descripcion, idSupervisor]
     );
-    res.json(rows[0]);
+    res.json(rows);
   } catch (e) {
     res.status(500).json({ message: "Error al crear circuito" });
   }

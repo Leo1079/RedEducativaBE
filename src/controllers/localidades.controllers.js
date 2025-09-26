@@ -32,8 +32,8 @@ export const crearLocalidad = async (req, res) => {
   const { id, nombre, esComuna, idDepartamento } = req.body;
   try {
     const [rows] = await pool.query(
-      "SELECT localidad_SPI(?, ?, ?, ?) AS resultado",
-      [id, nombre, esComuna, idDepartamento]
+      "SELECT localidad_SPI( ?, ?, ?) AS resultado",
+      [ nombre, esComuna, idDepartamento]
     );
     res.json(rows[0]);
   } catch (e) {
