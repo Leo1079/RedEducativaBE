@@ -60,12 +60,15 @@ export const actualizarLocalidad = async (req, res) => {
 
 export const eliminarLocalidad = async (req, res) => {
   const { id } = req.params;
+  console.log(id)
   try {
     const [rows] = await pool.query("SELECT localidad_SPD(?) AS resultado", [
       id,
     ]);
     res.json(rows[0]);
   } catch (e) {
+    console.log(e.message);
+    
     res.status(500).json({ message: "Error al eliminar localidad" });
   }
 };

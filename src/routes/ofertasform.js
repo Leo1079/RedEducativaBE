@@ -1,19 +1,17 @@
 import express from "express";
 import {
-  obtenerofertaform,
-  obtenerofertaform,
-  crearofertaform,
-  actualizarofertaform,
-  eliminarofertaform,
+  obtenerOfertasForm,
+  crearOfertaForm,
+  actualizarOfertaForm,
+  eliminarOfertaForm,
 } from "../controllers/ofertasform.controllers.js";
 
 const router = express.Router();
 
 router
-  .get("/", obtenerofertaform)
-  .get("/:id", obtenerofertaform)
-  .post("/", crearofertaform)
-  .put("/:id", actualizarofertaform)
-  .delete("/:id", eliminarofertaform);
+  .get("/", obtenerOfertasForm)
+  .post("/", crearOfertaForm)
+  .put("/:id", actualizarOfertaForm)
+  .delete("/:id", eliminarOfertaForm);
 
 export default router;
