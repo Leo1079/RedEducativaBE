@@ -33,20 +33,20 @@ export const crearLocalidad = async (req, res) => {
   try {
     const [rows] = await pool.query(
       "SELECT localidad_SPI( ?, ?, ?) AS resultado",
-      [ nombre, esComuna, idDepartamento]
+      [nombre, esComuna, idDepartamento]
     );
     console.log(rows)
     res.json(rows[0]);
   } catch (e) {
     res.json({
-      e
-    })
+      e,
+    });
     res.status(500).json({ message: "Error al crear localidad" });
   }
 };
 
 export const actualizarLocalidad = async (req, res) => {
-  const {nombre, esComuna, idDepartamento } = req.body;
+  const { nombre, esComuna, idDepartamento } = req.body;
   try {
     const [rows] = await pool.query(
       "SELECT localidad_SPU(?, ?, ?, ?) AS resultado",

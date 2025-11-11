@@ -1,6 +1,6 @@
 import { pool } from "../db.js";
 
-export const obtenerDepartamentos= async (req, res) => {
+export const obtenerDepartamentos = async (req, res) => {
   try {
     const [rows] = await pool.query("SELECT * FROM departamentos");
     res.json(rows);
@@ -29,15 +29,15 @@ export const obtenerDepartamento = async (req, res) => {
 };
 
 export const crearDepartamento = async (req, res) => {
-  const { nombre, idCircuito } = req.body;
+  const { id, nombre, idCircuito } = req.body;
   try {
     const [rows] = await pool.query(
-      "SELECT departamento_SPI( ?, ?) AS resultado",
-      [ nombre, idCircuito]
+      "SELECT departamento_SPI(?, ?, ?) AS resultado",
+      [id, nombre, idCircuito]
     );
     res.json(rows[0]);
   } catch (e) {
-    res.status(500).json({ message: "Error al crear departamento" });
+    res.status(500).json({ e });
   }
 };
 

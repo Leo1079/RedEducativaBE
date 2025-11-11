@@ -12,7 +12,7 @@ export const obtenerCircuitos = async (req, res) => {
 export const obtenerCircuito = async (req, res) => {
   try {
     console.log(req.params.id);
-    
+
     const [rows] = await pool.query(
       "SELECT * FROM circuitos WHERE id_circuito = ?",
       [req.params.id]
@@ -31,11 +31,11 @@ export const obtenerCircuito = async (req, res) => {
 };
 
 export const crearCircuito = async (req, res) => {
-  const { nombre, descripcion, idSupervisor } = req.body;
+  const { nombre, descripcion, id_supervisor } = req.body;
   try {
     const [rows] = await pool.query(
       "SELECT circuito_SPI(?, ?, ?) AS resultado",
-      [nombre, descripcion, idSupervisor]
+      [nombre, descripcion, id_supervisor]
     );
     res.json(rows);
   } catch (e) {
@@ -44,11 +44,11 @@ export const crearCircuito = async (req, res) => {
 };
 
 export const actualizarCircuito = async (req, res) => {
-  const {  nombre, descripcion, idSupervisor } = req.body;
+  const { nombre, descripcion, id_supervisor } = req.body;
   try {
     const [rows] = await pool.query(
       "SELECT circuito_SPU(?, ?, ?, ?) AS resultado",
-      [req.params.id , nombre, descripcion, idSupervisor]
+      [req.params.id, nombre, descripcion, id_supervisor]
     );
     res.json(rows[0]);
   } catch (e) {
@@ -62,8 +62,9 @@ export const eliminarCircuito = async (req, res) => {
     const [rows] = await pool.query("SELECT circuito_SPD(?) AS resultado", [
       id,
     ]);
+    console.log(rows);
     res.json(rows[0]);
   } catch (e) {
-    res.status(500).json({ message: "Error al eliminar circuito" });
+    res.status(500).json({ e });
   }
 };

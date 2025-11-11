@@ -5,31 +5,31 @@ export const obtenerSupervisores = async (req, res) => {
     const [rows] = await pool.query("SELECT * FROM supervisores");
     res.json(rows);
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 };
 
-export const obtenerSupervisor = async (req,res) => {
-try {
+export const obtenerSupervisor = async (req, res) => {
+  try {
     const [rows] = await pool.query(
-      "SELECT * FROM supervisores WHERE id_supervisor = ?"
-    ,[req.params.id]);
+      "SELECT * FROM supervisores WHERE id_supervisor = ?",
+      [req.params.id]
+    );
 
-    if (rows.lenght < 0 ) {
-        res.status(404).json({
-            message: "el supervisor no fue encontrado"
-        })
+    if (rows.lenght < 0) {
+      res.status(404).json({
+        message: "el supervisor no fue encontrado",
+      });
     }
 
-    res.json(rows[0])
-} catch (error) {
-    console.error(error)
-}
-}
-
+    res.json(rows[0]);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export const crearSupervisor = async (req, res) => {
-  const {apeyNombre, gmail, telefono, sede } = req.body;
+  const { apeyNombre, gmail, telefono, sede } = req.body;
   try {
     const [rows] = await pool.query(
       "SELECT supervisor_SPI(?, ?, ?, ?) AS resultado",
@@ -37,9 +37,9 @@ export const crearSupervisor = async (req, res) => {
     );
     res.json(rows[0]);
   } catch (e) {
-    console.log(e)
-    
-    res.status(500).json({ message: "Error al crear supervisor" });
+    console.log(e);
+
+    res.status(500).json({ message: e.message });
   }
 };
 
