@@ -4,7 +4,7 @@ import { pool } from "../db.js";
 
 export const obtenerInstituciones = async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT * FROM departamentos");
+    const [rows] = await pool.query("SELECT * FROM instituciones");
     res.json(rows);
   } catch (error) {
     console.error(error);
@@ -14,7 +14,7 @@ export const obtenerInstituciones = async (req, res) => {
 export const obtenerInstitucion = async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT * FROM supervisores WHERE id_departamento = ?",
+      "SELECT * FROM instituciones WHERE id_departamento = ?",
       [req.params.id]
     );
 

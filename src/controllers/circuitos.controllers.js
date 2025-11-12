@@ -31,14 +31,14 @@ export const obtenerCircuito = async (req, res) => {
 };
 
 export const crearCircuito = async (req, res) => {
-  const { nombre, descripcion, id_supervisor } = req.body;
+  const {nombre,descripcion,id_supervisor} = req.body;
   try {
     const [rows] = await pool.query(
       "SELECT circuito_SPI(?, ?, ?) AS resultado",
-      [nombre, descripcion, id_supervisor]
+      [nombre,descripcion,id_supervisor]
     );
     res.json(rows);
-  } catch (e) {
+  } catch (e) {console.log(e)
     res.status(500).json({ message: "Error al crear circuito" });
   }
 };
