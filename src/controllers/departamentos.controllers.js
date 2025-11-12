@@ -29,11 +29,11 @@ export const obtenerDepartamento = async (req, res) => {
 };
 
 export const crearDepartamento = async (req, res) => {
-  const { nombre, id_circuito } = req.body;
+  const {  nombre, id_circuito } = req.body;
   try {
     const [rows] = await pool.query(
       "SELECT departamento_SPI(?, ?) AS resultado",
-      [nombre, id_circuito]
+      [ nombre, id_circuito]
     );
     res.json(rows[0]);
   } catch (e) {
@@ -42,11 +42,11 @@ export const crearDepartamento = async (req, res) => {
 };
 
 export const actualizarDepartamento = async (req, res) => {
-  const { id, nombre, idCircuito } = req.body;
+  const { nombre, idCircuito } = req.body;
   try {
     const [rows] = await pool.query(
-      "SELECT departamento_SPU(?, ?, ?) AS resultado",
-      [id, nombre, idCircuito]
+      "SELECT departamento_SPU(?, ?) AS resultado",
+      [ nombre, idCircuito]
     );
     res.json(rows[0]);
   } catch (e) {
